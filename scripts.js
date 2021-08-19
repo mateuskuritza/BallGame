@@ -1,12 +1,19 @@
 const screenWidth = window.innerWidth * 0.9;
 const screenHeight = window.innerHeight * 0.85;
 
+const pointsContainer = document.querySelector("#points");
 const canvas = document.querySelector("#canvas");
 canvas.width = screenWidth;
 canvas.height = screenHeight;
 const context = canvas.getContext("2d");
 
 let gameIntervalId;
+let pointsByTimeIntervalId = setInterval(() => points++, 1000);
+let points = 0;
+
+function drawPointsText() {
+    pointsContainer.textContent = `${points}`;
+}
 
 let player = {
     x: screenWidth / 2,
@@ -77,8 +84,9 @@ function increaseEnemySpeed() {
 }
 
 function endGame() {
-    alert("Fim do jogo!");
+    alert("Fim do jogo! Você conseguiu " + points + " pontos");
     clearInterval(gameIntervalId);
+    clearInterval(pointsByTimeIntervalId);
 }
 
 function startGame() {
@@ -90,7 +98,11 @@ function startGame() {
     enemy.speedX = 10;
     enemy.speedY = 10;
 
+    points = 0;
+
+    clearInterval(pointsByTimeIntervalId);
     clearInterval(gameIntervalId);
+    pointsByTimeIntervalId = setInterval(() => points++, 1000);
     gameIntervalId = setInterval(gameLoop, 1000 / 60);
 }
 
@@ -111,11 +123,3 @@ function gameLoop() {
 }
 
 startGame();
-
-const pointsContainer = document.querySelector("#points");
-let points = 0;
-let pointsIntervalId = setInterval(() => points++, 1000);
-
-function drawPointsText() {
-    pointsContainer.textContent = `${points}`;
-}
