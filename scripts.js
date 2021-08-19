@@ -1,4 +1,4 @@
-const screenWidth = window.innerWidth * 0.9;
+const screenWidth = window.innerWidth * 0.95;
 const screenHeight = window.innerHeight * 0.85;
 
 const pointsContainer = document.querySelector("#points");
@@ -21,6 +21,7 @@ let player = {
 
 let enemies = [];
 let friends = [];
+let rescuedFriends = 0;
 
 function drawPointsText() {
     pointsContainer.textContent = `${points}`;
@@ -156,6 +157,7 @@ function checkFriendsCollision() {
         const distance = Math.sqrt((player.x - friend.x) ** 2 + (player.y - friend.y) ** 2);
         if (distance < player.radius + friend.radius) {
             points++;
+            rescuedFriends++;
             friends = friends.filter(myFriend => friend !== myFriend)
         }
     })
@@ -176,7 +178,7 @@ function increaseEnemiesSpeed() {
 }
 
 function endGame() {
-    alert("Fim do jogo! Você conseguiu " + points + " pontos");
+    alert("Fim do jogo! Você conseguiu " + points + " pontos! Tendo resgatado " + rescuedFriends + " amigo(s) :)");
     clearInterval(gameIntervalId);
     clearInterval(pointsByTimeIntervalId);
     finishedGame = true;
@@ -188,8 +190,6 @@ function startGame() {
 
     newEnemy();
 
-    points = 0;
-
     clearInterval(pointsByTimeIntervalId);
     clearInterval(gameIntervalId);
     pointsByTimeIntervalId = setInterval(() => points++, 1000);
@@ -198,6 +198,8 @@ function startGame() {
 
 function restartGame() {
     if (finishedGame) {
+        points = 0;
+        rescuedFriends = 0;
         enemies = [];
         friends = [];
         finishedGame = false;

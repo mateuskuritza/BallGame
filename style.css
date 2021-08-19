@@ -5,15 +5,19 @@
 }
 
 body {
-    background-color: #FFF;
+    background-color: #ccc;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
 canvas {
-    background: #ccc;
+    background: rgb(231, 231, 231);
     cursor: none;
+    border: 10px solid;
+    border-image-slice: 1;
+    border-width: 5px;
+    border-image-source: linear-gradient(to left bottom, #ff0000, #1900ff);
 }
 
 div{
