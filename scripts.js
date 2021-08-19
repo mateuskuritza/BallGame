@@ -1,17 +1,17 @@
-const screenWidth = window.innerWidth;
-const screenHeight = window.innerHeight;
+const screenWidth = window.innerWidth * 0.9;
+const screenHeight = window.innerHeight * 0.85;
 
 const canvas = document.querySelector("#canvas");
 canvas.width = screenWidth;
 canvas.height = screenHeight;
 const context = canvas.getContext("2d");
 
-let intervalId;
+let gameIntervalId;
 
 let player = {
     x: screenWidth / 2,
     y: screenHeight / 2,
-    radius: 100,
+    radius: 80,
     color: "red",
 };
 
@@ -78,7 +78,7 @@ function increaseEnemySpeed() {
 
 function endGame() {
     alert("Fim do jogo!");
-    clearInterval(intervalId);
+    clearInterval(gameIntervalId);
 }
 
 function startGame() {
@@ -90,8 +90,8 @@ function startGame() {
     enemy.speedX = 10;
     enemy.speedY = 10;
 
-    clearInterval(intervalId);
-    intervalId = setInterval(gameLoop, 1000 / 60);
+    clearInterval(gameIntervalId);
+    gameIntervalId = setInterval(gameLoop, 1000 / 60);
 }
 
 function gameLoop() {
@@ -105,8 +105,17 @@ function gameLoop() {
     bounceEnemyOnEdge();
     increaseEnemySpeed();
 
+    drawPointsText();
     drawPlayer();
     drawEnemy();
 }
 
 startGame();
+
+const pointsContainer = document.querySelector("#points");
+let points = 0;
+let pointsIntervalId = setInterval(() => points++, 1000);
+
+function drawPointsText() {
+    pointsContainer.textContent = `${points}`;
+}
