@@ -31,6 +31,8 @@ let enemy = {
     speedY: 10,
 };
 
+let finishedGame = false;
+
 function onMouseMove(event) {
     player.x = event.clientX;
     player.y = event.clientY;
@@ -87,6 +89,7 @@ function endGame() {
     alert("Fim do jogo! Você conseguiu " + points + " pontos");
     clearInterval(gameIntervalId);
     clearInterval(pointsByTimeIntervalId);
+    finishedGame = true;
 }
 
 function startGame() {
@@ -104,6 +107,13 @@ function startGame() {
     clearInterval(gameIntervalId);
     pointsByTimeIntervalId = setInterval(() => points++, 1000);
     gameIntervalId = setInterval(gameLoop, 1000 / 60);
+}
+
+function restartGame() {
+    if (finishedGame) {
+        finishedGame = false;
+        startGame();
+    }
 }
 
 function gameLoop() {
