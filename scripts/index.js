@@ -129,10 +129,6 @@ function bounceEnemiesOnEdge() {
     enemies.forEach(enemy => enemy.bounceOnEdge());
 }
 
-function increaseEnemiesSpeed() {
-    enemies.forEach(enemy => enemy.increaseSpeed());
-}
-
 function endGame() {
     alert("Fim do jogo! Você conseguiu " + points + " pontos! Tendo resgatado " + rescuedFriends + " amigo(s) :)");
     clearInterval(gameIntervalId);
@@ -182,7 +178,6 @@ function gameLoop() {
     checkFriendsCollision();
 
     bounceEnemiesOnEdge();
-    // increaseEnemiesSpeed();
 
     drawPointsText();
     drawPlayer();
