@@ -7,5 +7,10 @@ class Player extends Ball {
     moveTo(x, y) {
         this.positionX = x;
         this.positionY = y;
+
+        if (x > screenWidth) this.positionX = screenWidth;
+        if (y > screenHeight) this.positionY = screenHeight;
+        if (x < 0) this.positionX = 0;
+        if (y < 0) this.positionY = 0;
     }
 }
