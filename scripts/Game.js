@@ -90,45 +90,8 @@ class Game {
         });
     }
 
-    moveEnemies() {
-        this.enemies.forEach(enemy => enemy.move());
-    }
-
-    moveFriends() {
-        this.friends.forEach(friend => friend.move());
-    }
-
-    checkEnemiesCollision() {
-        let collision = false
-        this.enemies.forEach(enemy => {
-            if (enemy.checkCollision(this.player.positionX, this.player.positionY, this.player.radius)) collision = true;
-        });
-        return collision;
-    }
-
-    checkFriendsCollision() {
-        this.friends.forEach(friend => {
-            if (friend.checkCollision(this.player.positionX, this.player.positionY, this.player.radius)) {
-                this.points++;
-                this.rescuedFriends++;
-                this.friends = this.friends.filter(myFriend => friend !== myFriend)
-            }
-            if (friend.isOutOfScreen()) {
-                this.friends = this.friends.filter((f) => f !== friend);
-            }
-        });
-    }
-
-    clearFriendsOutOfScreen() {
-        this.friends.forEach(friend => {
-            if (friend.isOutOfScreen()) {
-                this.friends = this.friends.filter((f) => f !== friend);
-            }
-        });
-    }
-
-    bounceEnemiesOnEdge() {
-        this.enemies.forEach(enemy => enemy.bounceOnEdge());
+    deleteFriend(friend) {
+        this.friends = this.friends.filter(myFriend => friend !== myFriend)
     }
 
     end() {
@@ -170,20 +133,29 @@ class Game {
     }
 
     loop() {
-        this.moveEnemies();
-        this.moveFriends();
+        this.enemies.forEach(enemy => {
+            enemy.move()
+            if (enemy.checkCollision(this.player)) this.end();
+            enemy.bounceOnEdge()
+        });
+
+        this.friends.forEach(friend => {
+            friend.move()
+            if (friend.checkCollision(this.player)) {
+                this.points++;
+                this.rescuedFriends++;
+                this.deleteFriend(friend);
+            }
+            if (friend.isOutOfScreen()) this.deleteFriend(friend);
+        });
+
         this.randomAddNewEnemy();
         this.randomAddNewFriend();
 
-        if (this.checkEnemiesCollision()) this.end();
-        this.checkFriendsCollision();
-        this.clearFriendsOutOfScreen();
-        this.bounceEnemiesOnEdge();
         this.render();
     }
 
     render() {
-        console.log(this.friends.length);
         this.clearScreen();
         this.drawPointsText();
         this.drawPlayer();

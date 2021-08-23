@@ -19,9 +19,9 @@ class Ball {
         context.fill();
     }
 
-    checkCollision(anotherX, anotherY, anotherRadius) {
-        const distance = Math.sqrt((anotherX - this.positionX) ** 2 + (anotherY - this.positionY) ** 2);
-        if (distance < anotherRadius + this.radius) return true;
+    checkCollision(another) {
+        const distance = Math.sqrt((another.positionX - this.positionX) ** 2 + (another.positionY - this.positionY) ** 2);
+        if (distance < another.radius + this.radius) return true;
         return false
     }
 }
