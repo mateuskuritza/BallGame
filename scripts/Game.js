@@ -113,6 +113,17 @@ class Game {
                 this.rescuedFriends++;
                 this.friends = this.friends.filter(myFriend => friend !== myFriend)
             }
+            if (friend.isOutOfScreen()) {
+                this.friends = this.friends.filter((f) => f !== friend);
+            }
+        });
+    }
+
+    clearFriendsOutOfScreen() {
+        this.friends.forEach(friend => {
+            if (friend.isOutOfScreen()) {
+                this.friends = this.friends.filter((f) => f !== friend);
+            }
         });
     }
 
@@ -166,12 +177,13 @@ class Game {
 
         if (this.checkEnemiesCollision()) this.end();
         this.checkFriendsCollision();
-
+        this.clearFriendsOutOfScreen();
         this.bounceEnemiesOnEdge();
         this.render();
     }
 
     render() {
+        console.log(this.friends.length);
         this.clearScreen();
         this.drawPointsText();
         this.drawPlayer();
